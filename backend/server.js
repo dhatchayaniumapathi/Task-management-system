@@ -23,8 +23,8 @@ const server = http.createServer(app);
 // Socket.io setup with CORS
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    methods: ['GET', 'POST'],
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 
@@ -41,6 +41,7 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
