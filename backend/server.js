@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
@@ -20,37 +19,52 @@ const connectDB = require('./config/db');
 const app = express();
 const server = http.createServer(app);
 
-// Socket.io setup with CORS
+// Create Socket.io server
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "https://task-management-system-taskflow.netlify.app"
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-  },
+    credentials: true
+  }
 });
 
 // Connect to MongoDB
 connectDB();
 
-// ─── Middleware ───────────────────────────────────────────────────────────────
-app.use(cors());
+// Middleware
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://task-management-system-taskflow.netlify.app"
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Attach io to every request so controllers can emit events
+// Attach io to every request
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
 
-
-// ─── Routes ──────────────────────────────────────────────────────────────────
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'TaskFlow API running' }));
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'TaskFlow API running'
+  });
+});
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -61,11 +75,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ─── Socket.io Events ────────────────────────────────────────────────────────
+// Socket events
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 
-  // Join a project room to receive project-specific events
   socket.on('joinProject', (projectId) => {
     socket.join(projectId);
     console.log(`Socket ${socket.id} joined project room: ${projectId}`);
@@ -80,8 +93,8 @@ io.on('connection', (socket) => {
   });
 });
 
-// ─── Start Server ─────────────────────────────────────────────────────────────
+// Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`🚀 TaskFlow API running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+  console.log(`🚀 TaskFlow API running on port ${PORT}`);
 });
