@@ -1,0 +1,22 @@
+# render.yaml — Backend deployment config for Render.com
+# Place this file in the /backend folder, then connect your GitHub repo to Render
+
+services:
+  - type: web
+    name: taskflow-api
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false          # Set this manually in Render dashboard
+      - key: JWT_SECRET
+        sync: false          # Set this manually in Render dashboard
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: CLIENT_URL
+        sync: false          # Set to your Vercel frontend URL
