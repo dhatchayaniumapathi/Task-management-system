@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
 // Always use production URL (no localhost fallback)
-const socket = io("https://task-management-system-ztgu.onrender.com", {
+const socket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000', {
   autoConnect: false,
 });
 
