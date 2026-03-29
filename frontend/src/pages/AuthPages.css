@@ -105,7 +105,59 @@
 .auth-footer a { color: var(--primary); font-weight: 600; }
 .auth-footer a:hover { text-decoration: underline; }
 
-.form-control.error { border-color: var(--danger); }
+/* ─── Password show/hide ─────────────────────────────────────────────────────── */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input {
+  padding-right: 44px !important;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  color: var(--text-muted);
+  transition: color var(--transition);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+.password-toggle:hover { color: var(--text-primary); }
+
+/* ─── Remember me ────────────────────────────────────────────────────────────── */
+.remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.remember-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 
 .demo-creds {
   margin-top: 16px;

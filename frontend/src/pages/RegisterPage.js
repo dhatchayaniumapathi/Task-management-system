@@ -7,16 +7,17 @@ import './AuthPages.css';
 const RegisterPage = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'member' });
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [form, setForm]                 = useState({ name: '', email: '', password: '', role: 'member' });
+  const [loading, setLoading]           = useState(false);
+  const [errors, setErrors]             = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   const validate = () => {
     const errs = {};
-    if (!form.name.trim()) errs.name = 'Name is required';
-    if (!form.email) errs.email = 'Email is required';
+    if (!form.name.trim())        errs.name     = 'Name is required';
+    if (!form.email)              errs.email    = 'Email is required';
     if (form.password.length < 6) errs.password = 'Password must be at least 6 characters';
     return errs;
   };
@@ -25,7 +26,6 @@ const RegisterPage = () => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
-
     setLoading(true);
     try {
       await register(form);
@@ -51,40 +51,39 @@ const RegisterPage = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Full name</label>
-            <input
-              type="text"
-              name="name"
+            <input type="text" name="name"
               className={`form-control ${errors.name ? 'error' : ''}`}
-              placeholder="Jane Smith"
-              value={form.name}
-              onChange={handleChange}
-            />
+              placeholder="Jane Smith" value={form.name}
+              onChange={handleChange} autoComplete="name" />
             {errors.name && <span className="form-error">{errors.name}</span>}
           </div>
 
           <div className="form-group">
             <label className="form-label">Email address</label>
-            <input
-              type="email"
-              name="email"
+            <input type="email" name="email"
               className={`form-control ${errors.email ? 'error' : ''}`}
-              placeholder="you@company.com"
-              value={form.email}
-              onChange={handleChange}
-            />
+              placeholder="you@company.com" value={form.email}
+              onChange={handleChange} autoComplete="email" />
             {errors.email && <span className="form-error">{errors.email}</span>}
           </div>
 
           <div className="form-group">
             <label className="form-label">Password</label>
-            <input
-              type="password"
-              name="password"
-              className={`form-control ${errors.password ? 'error' : ''}`}
-              placeholder="At least 6 characters"
-              value={form.password}
-              onChange={handleChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                className={`form-control password-input ${errors.password ? 'error' : ''}`}
+                placeholder="At least 6 characters"
+                value={form.password}
+                onChange={handleChange}
+                autoComplete="new-password"
+              />
+              <button type="button" className="password-toggle"
+                onClick={() => setShowPassword((s) => !s)} tabIndex={-1}>
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
             {errors.password && <span className="form-error">{errors.password}</span>}
           </div>
 

@@ -7,15 +7,23 @@ import './AuthPages.css';
 const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [form, setForm] = useState({
+    email: localStorage.getItem('rememberedEmail') || '',
+    password: '',
+    rememberMe: !!localStorage.getItem('rememberedEmail'),
+  });
+  const [loading, setLoading]       = useState(false);
+  const [errors, setErrors]         = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
+  };
 
   const validate = () => {
     const errs = {};
-    if (!form.email) errs.email = 'Email is required';
+    if (!form.email)    errs.email    = 'Email is required';
     if (!form.password) errs.password = 'Password is required';
     return errs;
   };
@@ -27,7 +35,15 @@ const LoginPage = () => {
 
     setLoading(true);
     try {
-      await login(form);
+      await login({ email: form.email, password: form.password });
+
+      // Save email if "Remember me" checked
+      if (form.rememberMe) {
+        localStorage.setItem('rememberedEmail', form.email);
+      } else {
+        localStorage.removeItem('rememberedEmail');
+      }
+
       toast.success('Welcome back! 👋');
       navigate('/dashboard');
     } catch (err) {
@@ -48,6 +64,7 @@ const LoginPage = () => {
         <p className="auth-subtitle">Sign in to your account to continue</p>
 
         <form onSubmit={handleSubmit}>
+          {/* Email */}
           <div className="form-group">
             <label className="form-label">Email address</label>
             <input
@@ -57,24 +74,57 @@ const LoginPage = () => {
               placeholder="you@company.com"
               value={form.email}
               onChange={handleChange}
+              autoComplete="email"
             />
             {errors.email && <span className="form-error">{errors.email}</span>}
           </div>
 
+          {/* Password with show/hide toggle */}
           <div className="form-group">
             <label className="form-label">Password</label>
-            <input
-              type="password"
-              name="password"
-              className={`form-control ${errors.password ? 'error' : ''}`}
-              placeholder="••••••••"
-              value={form.password}
-              onChange={handleChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                className={`form-control password-input ${errors.password ? 'error' : ''}`}
+                placeholder="••••••••"
+                value={form.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((s) => !s)}
+                tabIndex={-1}
+                title={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
             {errors.password && <span className="form-error">{errors.password}</span>}
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg w-full" disabled={loading}>
+          {/* Remember me */}
+          <div className="remember-row">
+            <label className="remember-label">
+              <input
+                type="checkbox"
+                name="rememberMe"
+                checked={form.rememberMe}
+                onChange={handleChange}
+                className="remember-checkbox"
+              />
+              Remember me
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg w-full"
+            disabled={loading}
+            style={{ marginTop: 8 }}
+          >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
@@ -83,9 +133,8 @@ const LoginPage = () => {
           Don't have an account? <Link to="/register">Create one</Link>
         </p>
 
-        {/* Demo credentials helper */}
         <div className="demo-creds">
-          <p className="text-muted text-sm">Demo: admin@taskflow.com / password123</p>
+          <p>Demo: admin@taskflow.com / password123</p>
         </div>
       </div>
     </div>
@@ -93,3 +142,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
