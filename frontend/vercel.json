@@ -17,9 +17,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "REACT_APP_API_URL": "@taskflow_api_url",
-    "REACT_APP_SOCKET_URL": "@taskflow_socket_url"
-  }
+  ]
 }
