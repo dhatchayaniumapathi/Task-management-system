@@ -8,7 +8,23 @@ Frontend: https://task-management-system-five-taupe.vercel.app
 
 Backend API: https://task-management-system-ztgu.onrender.com/api
 
+## Screenshots
 
+### Login
+
+![Login](screenshots/login.png)
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### Kanban Board
+
+![Kanban](screenshots/kanban.png)
+
+### Project Details
+
+![Project](screenshots/project-details.png)
 ##  Project Structure
 
 ```
