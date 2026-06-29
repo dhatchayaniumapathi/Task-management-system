@@ -1,10 +1,15 @@
-# ⚡ TaskFlow — Full Stack Project Management System
+# # TaskFlow – Real-Time Project Management System
 
-A production-style **MERN stack** application for managing projects, assigning tasks, and tracking team progress in real time.
+TaskFlow is a full-stack MERN project management application that enables teams to collaborate in real time. It provides secure authentication, role-based access control, project and task management, drag-and-drop Kanban boards, live updates using Socket.IO, and an in-app notification system. The application is deployed using Vercel, Render, and MongoDB Atlas.
 
+## Live Demo
+
+Frontend: https://task-management-system-five-taupe.vercel.app
+
+Backend API: https://task-management-system-ztgu.onrender.com/api
 ---
 
-## 🗂️ Project Structure
+##  Project Structure
 
 ```
 taskflow/
@@ -77,8 +82,8 @@ taskflow/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/taskflow.git
-cd taskflow
+git clone https://github.com/dhatchayaniumapathi/Task-management-system.git
+cd Task-management-system
 ```
 
 ### 2. Backend setup
@@ -128,7 +133,7 @@ The app will open at **http://localhost:3000**.
 
 ---
 
-## 🔌 API Reference
+##  API Reference
 
 ### Auth
 | Method | Endpoint              | Access  | Description           |
@@ -164,7 +169,7 @@ The app will open at **http://localhost:3000**.
 
 ---
 
-## 👥 Role-Based Access Control
+##  Role-Based Access Control
 
 | Feature                  | Admin | Manager | Member |
 |--------------------------|-------|---------|--------|
@@ -177,7 +182,7 @@ The app will open at **http://localhost:3000**.
 
 ---
 
-## ⚡ Advanced Features
+##  Advanced Features
 
 ### Real-Time Updates (Socket.io)
 - Task created/updated/deleted events broadcast to all project room members instantly
@@ -201,7 +206,7 @@ The app will open at **http://localhost:3000**.
 
 ---
 
-## 🌐 Deployment
+##  Deployment
 
 ### Step 1 — MongoDB Atlas
 1. Create a free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
@@ -219,7 +224,7 @@ The app will open at **http://localhost:3000**.
    - `JWT_SECRET` = a strong random string (use `openssl rand -hex 32`)
    - `NODE_ENV` = `production`
    - `CLIENT_URL` = your Vercel frontend URL (add after step 3)
-6. Deploy — copy the generated URL (e.g. `https://taskflow-api.onrender.com`)
+6. Deploy — https://task-management-system-five-taupe.vercel.app (e.g. `https://taskflow-api.onrender.com`)
 
 ### Step 3 — Frontend on Vercel
 1. Go to [vercel.com](https://vercel.com) → **New Project**
@@ -227,12 +232,12 @@ The app will open at **http://localhost:3000**.
 3. Add environment variables:
    - `REACT_APP_API_URL` = `https://taskflow-api.onrender.com/api`
    - `REACT_APP_SOCKET_URL` = `https://taskflow-api.onrender.com`
-4. Deploy — copy your Vercel URL
+4. Deploy — https://task-management-system-ztgu.onrender.com/api
 5. Go back to Render and update `CLIENT_URL` to your Vercel URL, then redeploy backend
 
 ---
 
-## 🔧 Git Instructions
+##  Git Instructions
 
 ### Initialize a new repository
 
@@ -247,7 +252,7 @@ git commit -m "feat: initial TaskFlow project setup"
 
 ```bash
 # Create repo on GitHub first, then:
-git remote add origin https://github.com/YOUR_USERNAME/taskflow.git
+git remote add origin https://github.com/dhatchayaniumapathi/Task-management-system.git
 git branch -M main
 git push -u origin main
 ```
@@ -277,7 +282,7 @@ chore:    Config, dependencies
 
 ---
 
-## 🧪 Testing the API with cURL
+##  Testing the API with cURL
 
 ```bash
 # Register a user
@@ -297,7 +302,7 @@ curl http://localhost:5000/api/projects \
 
 ---
 
-## 🛡️ Security Checklist
+##  Security Checklist
 
 - [x] Passwords hashed with bcrypt (salt rounds: 10)
 - [x] JWT tokens signed with HS256, expire in 7 days
@@ -309,7 +314,7 @@ curl http://localhost:5000/api/projects \
 
 ---
 
-## 📦 Tech Stack
+##  Tech Stack
 
 | Layer       | Technology                            |
 |-------------|---------------------------------------|
